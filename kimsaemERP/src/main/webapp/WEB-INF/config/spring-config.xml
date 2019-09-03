@@ -86,12 +86,12 @@
 			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="4000000"/>	
 	</beans:bean>
-	<!-- ===========인터셉터를 등록================================= -->
+	<!-- ===========인터셉터를 등록=================================
 	<interceptors>
-		<!-- <interceptor>
+		<interceptor>
 			<mapping path="/**"/>
 			<beans:bean class="advanced.TimeCheckInterceptor"/>
-		</interceptor> -->
+		</interceptor>
 		<interceptor>			
 			<mapping path="/emp/**"/>
 			<mapping path="/board/**"/>
@@ -100,6 +100,6 @@
 			<exclude-mapping path="/board/ajax_boardlist.do"/>
 			<beans:bean class="ktds.erp.emp.LoginCheckInterceptor"/>
 		</interceptor>
-	</interceptors>
+	</interceptors> -->
 	
 </beans:beans>
