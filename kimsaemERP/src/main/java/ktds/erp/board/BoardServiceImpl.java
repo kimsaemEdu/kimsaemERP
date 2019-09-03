@@ -28,16 +28,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insert(BoardDTO board,ArrayList<String> filelist) {
-		int result=0;
-		int dataResult = dao.insert(board) ;
-		int fileResult = dao.fileInsert(filelist);
-		if(dataResult>=1 || fileResult>=1) {
-			System.out.println("성공입력-파일업로드");
-			result = 1;
-		}else {
-			System.out.println("실패");
-		}
-		return result;
+		int boardinsert = dao.insert(board);
+		int fileinsert = dao.fileInsert(filelist);
+		return boardinsert;
 	}
 
 

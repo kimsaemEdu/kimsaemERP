@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,64 +15,44 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import ktds.erp.emp.LoginDTO;
+
 @Controller
 public class BoardController {
 	@Autowired
 	BoardService service;
 	@Autowired
 	FileUploadLogic uploadservice;
-	//트랜잭션 처리하는 메소드
-//	@RequestMapping(value="/board/txwrite.do",method=RequestMethod.POST)
-//	public String txwrite(BoardDTO board) {
-//		System.out.println(board);
-//		int result = service.txinsert(board);
-//		System.out.println(result+"개 행 삽입성공!!");
-//		return "redirect:/board/list.do?category=all";
-//	}
+
 	//게시글 db에 insert
 	@RequestMapping(value="/board/insert.do" ,method=RequestMethod.POST)
 	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
-		System.out.println(board);	
-		System.out.println(","+board.getFiles().length);
-		MultipartFile[] files = board.getFiles();
-		
-		//2. 저장될 위치
-		String path = 
-			WebUtils.getRealPath(req.getSession().getServletContext(),
-							"/WEB-INF/upload");
+		//board dto에는 사용자가 게시글로 등록하는 일반적인 내용과 업로드하는 파일의 정보
+		//1. dto에서 업로드되는 파일의 모든 정보를 추출 
+		//   - 파일이 여러개 일 수 있으모로 ArrayList에 담기
+		//   - FileUploadLogic이 업로드되는 파일의 갯수만큼 호출
+		//   - Boardservice의 insert호출
+		HttpSession session = req.getSession(false);
+		LoginDTO loginuser = (LoginDTO) session.getAttribute("loginUser");
+		board.setId(loginuser.getId());
+		MultipartFile[] file = board.getFiles();
+		int size=file.length;
+		System.out.println(size);
 		ArrayList<String> filelist = new ArrayList<String>();
-		for (int i = 0; i < files.length; i++) {
-			String fileName = files[i].getOriginalFilename();
+		FileUploadLogic fileupload = new FileUploadLogic();
+		String realPath =  WebUtils.getRealPath(session.getServletContext(), "WEB-INF/upload");
+		for(int i=0; i<size; i++) {
+			String fileName = file[i].getOriginalFilename();
 			if(fileName.length()!=0) {
 				filelist.add(fileName);
-				System.out.println("file:"+fileName);
-				uploadservice.upload(files[i], path, fileName);
+				fileupload.upload(file[i], realPath, filelist.get(i));
 			}
 		}
 		service.insert(board, filelist);
 		return "redirect:/board/list.do?category=all";
 	}
 	
-	/*@RequestMapping(value="/board/insert.do",method=RequestMethod.POST)
-	public String write(BoardDTO board) {
-		System.out.println(board);
-		int result = service.insert(board);
-		System.out.println(result+"개 행 삽입성공!!");
-		return "redirect:/board/list.do?category=all";
-	}
-	*/
-	//일반 메소드 리턴하는 것처럼 List<BoardDTO>를 리턴하면서
-	//@ResponseBody로 설정하면 jackson라이브러리가 자동으로 json객체로 변환
-	/*@RequestMapping(value = "/board/ajax_boardlist.do",
-			method=RequestMethod.GET,
-			produces="application/json;charset=utf-8")
-	public @ResponseBody List<BoardDTO> categoryboardlist(
-													String category) {
-		String result = "";
-		List<BoardDTO> boardlist = service.findByCategory(category);
-		System.out.println("ajax통신"+boardlist);
-		return boardlist;
-	}*/
+	
 	
 	@RequestMapping(value="/board/list.do")
 	public ModelAndView showlist(String category) {
@@ -84,23 +65,7 @@ public class BoardController {
 		mav.setViewName("board/list");//tiles에 등록
 		return mav;
 	}
-	/*@RequestMapping(value="/board/{category}/{board_no}")
-	public String read(@PathVariable String board_no,
-			@PathVariable String category,String state,Model model) {
-		System.out.println("readcontroller=>"+board_no+","+state);
-		BoardDTO board= service.read(board_no);
-		System.out.println("조회된 데이터 =>"+board);
-		String viewName="";
-		if(state.equals("READ")) {
-			viewName = "board/read";
-		}else {
-			viewName = "board/update";
-		}
-		System.out.println(model);
-		model.addAttribute("board",board);
-		System.out.println(model);
-		return viewName;
-	}*/
+
 	@RequestMapping(value="/board/read.do")
 	public ModelAndView read(String board_no,String state) {
 		System.out.println("readcontroller=>"+board_no+","+state);
