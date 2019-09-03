@@ -30,8 +30,8 @@
 
 						<label class="col-sm-2 col-sm-2 control-label">작성자</label>
 						<div class="col-sm-10">
-							<input type="hidden" name="id" value="lee">
-							<p class="form-control-static">김서연</p>
+							<input type="hidden" name="id" value="${loginUser.id}">
+							<p class="form-control-static">${loginUser.name}</p>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">게시글 유형</label>
@@ -65,7 +65,7 @@
 								<label for="files" class="control-label">파일1</label>
 							</div>
 							<div class="col-md-8">
-								<input type="file" class="form-control input-lg" name="files"
+								<input multiple type="file" class="form-control input-lg" name="files"
 									id="files" placeholder="파일선택">
 							</div>
 						</div>
@@ -74,7 +74,7 @@
 								<label for="title" class="control-label">파일2</label>
 							</div>
 							<div class="col-md-8">
-								<input type="file" class="form-control input-lg" name="files"
+								<input multiple type="file" class="form-control input-lg" name="files"
 									id="title" placeholder="파일선택">
 							</div>
 						</div>
@@ -83,7 +83,7 @@
 								<label for="files" class="control-label">파일3</label>
 							</div>
 							<div class="col-md-8">
-								<input type="file" class="form-control input-lg" name="files"
+								<input multiple type="file" class="form-control input-lg" name="files"
 									id="files" placeholder="파일선택">
 							</div>
 						</div>
@@ -92,7 +92,7 @@
 								<label for="files" class="control-label">파일4</label>
 							</div>
 							<div class="col-md-8">
-								<input type="file" class="form-control input-lg" name="files"
+								<input multiple type="file" class="form-control input-lg" name="files"
 									id="files" placeholder="파일선택">
 							</div>
 						</div>
@@ -101,7 +101,7 @@
 								<label for="title" class="control-label">파일5</label>
 							</div>
 							<div class="col-md-8">
-								<input type="file" class="form-control input-lg" name="files"
+								<input multiple type="file" class="form-control input-lg" name="files"
 									id="title" placeholder="파일선택">
 							</div>
 						</div>

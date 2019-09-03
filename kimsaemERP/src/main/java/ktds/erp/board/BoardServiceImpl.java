@@ -28,15 +28,23 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insert(BoardDTO board,ArrayList<String> filelist) {
-		int result=0;
-		int dataResult = dao.insert(board) ;
-		int fileResult = dao.fileInsert(filelist);
-		if(dataResult>=1 || fileResult>=1) {
-			System.out.println("성공입력-파일업로드");
-			result = 1;
+		int result =0;
+		int boardResult=dao.insert(board);
+		int boardFileResult =0;
+		if(filelist.size()!=0) {
+			String testStr = null;
+			testStr.length();
+			boardFileResult=dao.fileInsert(filelist);
+			if(boardResult>=1 & boardFileResult>=1) {
+				result =1;
+			}
 		}else {
-			System.out.println("실패");
+			if(boardResult>=1) {
+				result=1;
+			}
 		}
+		
+
 		return result;
 	}
 
