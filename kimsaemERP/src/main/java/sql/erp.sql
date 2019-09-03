@@ -11,6 +11,12 @@ create table dept(
 	deptaddr varchar2(50),
 	depttel varchar2(15)
 );
+insert all
+			into board_file
+			values(board_seq.currval,'f')
+			into board_file
+			values(board_seq.currval,'a')
+		select * from dual
 create table member(
 	id varchar2(20) primary key,
 	pass varchar2(20),
@@ -92,7 +98,6 @@ drop sequence purchase_seq;
 drop sequence purchase_detail_seq;
 drop table purchase;
 drop table purchase_detail;
-
 
 create table purchase(
 	purchase_id varchar2(20) primary key,

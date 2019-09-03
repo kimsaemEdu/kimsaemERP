@@ -6,20 +6,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 @Service
 public class BoardServiceImpl implements BoardService {
 	@Autowired
 	@Qualifier("boarddao")
 	BoardDAO dao;
+
 	@Override
 	public List<BoardDTO> boardList(String category) {
 		List<BoardDTO> boardlist = null;
-		if(category!=null) {
-			if(category.equals("all")) {
+		if (category != null) {
+			if (category.equals("all")) {
 				System.out.println("all");
 				boardlist = dao.boardList();
 				System.out.println(boardlist);
-			}else{
+			} else {
 				boardlist = dao.categorySearch(category);
 			}
 		}
@@ -27,13 +29,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int insert(BoardDTO board,ArrayList<String> filelist) {
-		return 0;
+	public int insert(BoardDTO board, ArrayList<String> filelist) {
+		int result = 0;
+		int result1 = dao.insert(board);
+		int result2 = dao.fileInsert(filelist);
+		if (result1 > 0 && result2 > 0) {
+			result = 1;
+		}
+		return result;
 	}
 
-
 	@Override
-	public List<BoardDTO> dynamicSearch(String tag,String search) {
+	public List<BoardDTO> dynamicSearch(String tag, String search) {
 		// TODO Auto-generated method stub
 		return dao.dynamicSearch(tag, search);
 	}
@@ -62,27 +69,13 @@ public class BoardServiceImpl implements BoardService {
 		return dao.delete(board_no);
 	}
 
-	
-	//트랜잭션  메소드 - 논리적인 작업단위(계좌이체,책구매,물건구매....,사원등록(가족사항,경력사항..)
+	// 트랜잭션 메소드 - 논리적인 작업단위(계좌이체,책구매,물건구매....,사원등록(가족사항,경력사항..)
 	@Override
 	public int txinsert(BoardDTO board) {
-		dao.insert(board);//주문테이블에 insert - 주문의 일반적인 내용
-		dao.insert(null);//주문상품테이블에 insert - 내가 주문한 상품의 목록
-		//주문같은 경우 수량을 -1하는 메소드도 호출
+		dao.insert(board);// 주문테이블에 insert - 주문의 일반적인 내용
+		dao.insert(null);// 주문상품테이블에 insert - 내가 주문한 상품의 목록
+		// 주문같은 경우 수량을 -1하는 메소드도 호출
 		return 0;
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
