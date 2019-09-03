@@ -32,9 +32,17 @@ public class BoardServiceImpl implements BoardService {
 	public int insert(BoardDTO board, ArrayList<String> filelist) {
 		int result = 0;
 		int result1 = dao.insert(board);
-		int result2 = dao.fileInsert(filelist);
-		if (result1 > 0 && result2 > 0) {
-			result = 1;
+		int result2 = 0;
+		if (filelist.size() != 0) {
+			result2 = dao.fileInsert(filelist);
+			if (result1 > 0 && result2 > 0) {
+				result = 1;
+			} else {
+				if (result1 >= 1) {
+					result = 1;
+				}
+			}
+
 		}
 		return result;
 	}
