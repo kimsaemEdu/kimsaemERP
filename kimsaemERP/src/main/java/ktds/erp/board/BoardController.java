@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
+
+import ktds.erp.emp.LoginDTO;
 
 @Controller
 public class BoardController {
@@ -24,7 +27,29 @@ public class BoardController {
 	//게시글 db에 insert
 	@RequestMapping(value="/board/insert.do" ,method=RequestMethod.POST)
 	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
-		return "";
+		//board dto에는 사용자가 게시글로 등록하는 일반적인 내용과 업로드하는 파일의 정보
+		//1. dto에서 업로드되는 파일의 모든 정보를 추출 
+		//   - 파일이 여러개 일 수 있으모로 ArrayList에 담기
+		//   - FileUploadLogic이 업로드되는 파일의 갯수만큼 호출
+		//   - Boardservice의 insert호출
+		HttpSession session = req.getSession(false);
+		LoginDTO loginuser = (LoginDTO) session.getAttribute("loginUser");
+		board.setId(loginuser.getId());
+		MultipartFile[] file = board.getFiles();
+		int size=file.length;
+		System.out.println(size);
+		ArrayList<String> filelist = new ArrayList<String>();
+		FileUploadLogic fileupload = new FileUploadLogic();
+		String realPath =  WebUtils.getRealPath(session.getServletContext(), "WEB-INF/upload");
+		for(int i=0; i<size; i++) {
+			String fileName = file[i].getOriginalFilename();
+			if(fileName.length()!=0) {
+				filelist.add(fileName);
+				fileupload.upload(file[i], realPath, filelist.get(i));
+			}
+		}
+		service.insert(board, filelist);
+		return "redirect:/board/list.do?category=all";
 	}
 	
 	

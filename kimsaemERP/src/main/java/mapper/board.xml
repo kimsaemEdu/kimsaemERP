@@ -21,8 +21,7 @@
 	<select id="category" resultType="board" parameterType="String">
 		select * from board where category=#{category}
 	</select>
-	<select id="dynamicsearch" resultType="board" 
-										parameterType="Map">
+	<select id="dynamicsearch" resultType="board" parameterType="Map">
 		select * from board
 		<where>
 			<if test="tag=='title' and search!=''">
@@ -43,10 +42,14 @@
 	</select>
 	<insert id="insert" parameterType="board" >
 		insert into board values
-		(board_seq.nextval,'92115kim',#{title},#{content},sysdate,#{category},0)
+		(board_seq.nextval,#{id},#{title},#{content},sysdate,#{category},0)
 	</insert>
 	<insert id="fileinsert" parameterType="Map">
- 		
+ 		insert all
+ 		<foreach collection="filelist" item="file" separator="">
+ 			into board_file values(board_seq.currval, #{file}) 
+ 		</foreach>
+ 		select * from dual
  	</insert>
 </mapper>
 
