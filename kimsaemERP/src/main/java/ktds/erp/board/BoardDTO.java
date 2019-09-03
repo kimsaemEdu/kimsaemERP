@@ -12,11 +12,10 @@ public class BoardDTO {
 	Date write_date;
 	String category;
 	MultipartFile[] files;
-	public BoardDTO(){
-		
-	}
 
-	
+	public BoardDTO() {
+
+	}
 
 	public BoardDTO(String board_no, String id, String title, String content, Date write_date, String category,
 			MultipartFile[] files) {
@@ -30,19 +29,13 @@ public class BoardDTO {
 		this.files = files;
 	}
 
-
-
 	public MultipartFile[] getFiles() {
 		return files;
 	}
 
-
-
 	public void setFiles(MultipartFile[] files) {
 		this.files = files;
 	}
-
-
 
 	public String getBoard_no() {
 		return board_no;
@@ -97,6 +90,5 @@ public class BoardDTO {
 		return "BoardDTO [board_no=" + board_no + ", id=" + id + ", title=" + title + ", content=" + content
 				+ ", write_date=" + write_date + ", category=" + category + "]";
 	}
-	
-	
+
 }

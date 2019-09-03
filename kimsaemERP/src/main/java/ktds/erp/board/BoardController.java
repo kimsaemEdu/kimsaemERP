@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,157 +21,100 @@ public class BoardController {
 	BoardService service;
 	@Autowired
 	FileUploadLogic uploadservice;
-	//트랜잭션 처리하는 메소드
-//	@RequestMapping(value="/board/txwrite.do",method=RequestMethod.POST)
-//	public String txwrite(BoardDTO board) {
-//		System.out.println(board);
-//		int result = service.txinsert(board);
-//		System.out.println(result+"개 행 삽입성공!!");
-//		return "redirect:/board/list.do?category=all";
-//	}
-	//게시글 db에 insert
-	@RequestMapping(value="/board/insert.do" ,method=RequestMethod.POST)
-	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
-		System.out.println(board);	
-		System.out.println(","+board.getFiles().length);
-		MultipartFile[] files = board.getFiles();
-		
-		//2. 저장될 위치
-		String path = 
-			WebUtils.getRealPath(req.getSession().getServletContext(),
-							"/WEB-INF/upload");
+
+	// 게시글 db에 insert
+	@RequestMapping(value = "/board/insert.do", method = RequestMethod.POST)
+	public String write(BoardDTO board, HttpServletRequest req) throws Exception {
+		// 일반적인내용과 파일 업로드
+		// 1. dto에서 업로드되는 파일의 모든 정보를 추출
+		// -> 파일이 여러 개 일수 있으므로 ArrayList에 담기
+		// -> FileUploadLogic이 업로도되는 파일 갯수만큼 호출
+		// -> BoardService의 insert를 호출
+		HttpSession session = req.getSession(false);
 		ArrayList<String> filelist = new ArrayList<String>();
-		for (int i = 0; i < files.length; i++) {
-			String fileName = files[i].getOriginalFilename();
-			if(fileName.length()!=0) {
-				filelist.add(fileName);
-				System.out.println("file:"+fileName);
-				uploadservice.upload(files[i], path, fileName);
+
+		for (int i = 0; i < board.files.length; i++) {
+			MultipartFile file = board.getFiles()[i];
+			if (file.getOriginalFilename() == "") {
+				break;
 			}
+			String path = WebUtils.getRealPath(session.getServletContext(), "/WEB-INF/upload");
+			System.out.println(path);
+			String fileName = file.getOriginalFilename();
+			filelist.add(fileName);
+			uploadservice.upload(file, path, fileName);
 		}
-		service.insert(board, filelist);
-		return "redirect:/board/list.do?category=all";
+		int result = service.insert(board, filelist);
+		System.out.println(result);
+
+		return "index";
+
 	}
-	
-	/*@RequestMapping(value="/board/insert.do",method=RequestMethod.POST)
-	public String write(BoardDTO board) {
-		System.out.println(board);
-		int result = service.insert(board);
-		System.out.println(result+"개 행 삽입성공!!");
-		return "redirect:/board/list.do?category=all";
-	}
-	*/
-	//일반 메소드 리턴하는 것처럼 List<BoardDTO>를 리턴하면서
-	//@ResponseBody로 설정하면 jackson라이브러리가 자동으로 json객체로 변환
-	/*@RequestMapping(value = "/board/ajax_boardlist.do",
-			method=RequestMethod.GET,
-			produces="application/json;charset=utf-8")
-	public @ResponseBody List<BoardDTO> categoryboardlist(
-													String category) {
-		String result = "";
-		List<BoardDTO> boardlist = service.findByCategory(category);
-		System.out.println("ajax통신"+boardlist);
-		return boardlist;
-	}*/
-	
-	@RequestMapping(value="/board/list.do")
+
+	@RequestMapping(value = "/board/list.do")
 	public ModelAndView showlist(String category) {
 		ModelAndView mav = new ModelAndView();
 		List<BoardDTO> boardlist = service.boardList(category);
-		System.out.println("category====>"+category);
-		
-		mav.addObject("category",category);
-		mav.addObject("boardlist",boardlist);
-		mav.setViewName("board/list");//tiles에 등록
+		System.out.println("category====>" + category);
+
+		mav.addObject("category", category);
+		mav.addObject("boardlist", boardlist);
+		mav.setViewName("board/list");// tiles에 등록
 		return mav;
 	}
-	/*@RequestMapping(value="/board/{category}/{board_no}")
-	public String read(@PathVariable String board_no,
-			@PathVariable String category,String state,Model model) {
-		System.out.println("readcontroller=>"+board_no+","+state);
-		BoardDTO board= service.read(board_no);
-		System.out.println("조회된 데이터 =>"+board);
-		String viewName="";
-		if(state.equals("READ")) {
+
+	@RequestMapping(value = "/board/read.do")
+	public ModelAndView read(String board_no, String state) {
+		System.out.println("readcontroller=>" + board_no + "," + state);
+		BoardDTO board = service.read(board_no);
+		System.out.println("조회된 데이터 =>" + board);
+		String viewName = "";
+		if (state.equals("READ")) {
 			viewName = "board/read";
-		}else {
+		} else {
 			viewName = "board/update";
 		}
-		System.out.println(model);
-		model.addAttribute("board",board);
-		System.out.println(model);
-		return viewName;
-	}*/
-	@RequestMapping(value="/board/read.do")
-	public ModelAndView read(String board_no,String state) {
-		System.out.println("readcontroller=>"+board_no+","+state);
-		BoardDTO board= service.read(board_no);
-		System.out.println("조회된 데이터 =>"+board);
-		String viewName="";
-		if(state.equals("READ")) {
-			viewName = "board/read";
-		}else {
-			viewName = "board/update";
-		}
-		//System.out.println(model);
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("board",board);
-		//System.out.println(model);
+		// System.out.println(model);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("board", board);
+		// System.out.println(model);
 		mav.setViewName(viewName);
 		return mav;
 	}
-	@RequestMapping(value="/board/update.do",method=RequestMethod.POST)
+
+	@RequestMapping(value = "/board/update.do", method = RequestMethod.POST)
 	public String update(BoardDTO board) {
 		System.out.println(board);
 		int result = service.update(board);
-		System.out.println(result+"개 행 수정성공!!");
+		System.out.println(result + "개 행 수정성공!!");
 		return "redirect:/board/list.do?category=all";
 	}
-	@RequestMapping(value="/board/delete.do")
+
+	@RequestMapping(value = "/board/delete.do")
 	public String delete(String board_no) {
-		System.out.println("readcontroller=>"+board_no);
+		System.out.println("readcontroller=>" + board_no);
 		ModelAndView mav = new ModelAndView();
-		int result= service.delete(board_no);
-		System.out.println(result+"개 행 삭제성공!!");
+		int result = service.delete(board_no);
+		System.out.println(result + "개 행 삭제성공!!");
 		return "redirect:/board/list.do?category=all";
 	}
-	@RequestMapping(value="/board/search.do")
-	public ModelAndView search(String tag,String search) {
+
+	@RequestMapping(value = "/board/search.do")
+	public ModelAndView search(String tag, String search) {
 		ModelAndView mav = new ModelAndView();
 		List<BoardDTO> boardlist = service.dynamicSearch(tag, search);
-		mav.addObject("boardlist",boardlist);
-		mav.setViewName("board/list");//tiles에 등록
+		mav.addObject("boardlist", boardlist);
+		mav.setViewName("board/list");// tiles에 등록
 		return mav;
 	}
-	//일반 메소드 리턴하는 것처럼 List<BoardDTO>를 리턴하면서
-	//@ResponseBody로 설정하면 jackson라이브러리가 자동으로 json객체로 변환
-	@RequestMapping(value = "/board/ajax_boardlist.do",
-			method=RequestMethod.GET,
-			produces="application/json;charset=utf-8")
-	public @ResponseBody List<BoardDTO> categoryboardlist(
-													String category) {
+
+	// 일반 메소드 리턴하는 것처럼 List<BoardDTO>를 리턴하면서
+	// @ResponseBody로 설정하면 jackson라이브러리가 자동으로 json객체로 변환
+	@RequestMapping(value = "/board/ajax_boardlist.do", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+	public @ResponseBody List<BoardDTO> categoryboardlist(String category) {
 		String result = "";
 		List<BoardDTO> boardlist = service.boardList(category);
-		System.out.println("ajax통신"+boardlist);
+		System.out.println("ajax통신" + boardlist);
 		return boardlist;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
