@@ -3,26 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.ktds.board">
-	
+
 	<select id="listall" resultType="board">
 		select * from board
 	</select>
 	<select id="read" resultType="board" parameterType="String">
-		select * from board where board_no=#{board_no}
+		select * from
+		board where board_no=#{board_no}
 	</select>
 	<update id="update" parameterType="board">
 		update board
-		set title= #{title},content = #{content}, category=#{category}
-		where board_no=#{board_no}
+		set title=
+		#{title},content = #{content}, category=#{category}
+		where
+		board_no=#{board_no}
 	</update>
 	<delete id="delete">
 		delete from board where board_no=#{board_no}
 	</delete>
 	<select id="category" resultType="board" parameterType="String">
-		select * from board where category=#{category}
+		select *
+		from board where category=#{category}
 	</select>
-	<select id="dynamicsearch" resultType="board" 
-										parameterType="Map">
+	<select id="dynamicsearch" resultType="board"
+		parameterType="Map">
 		select * from board
 		<where>
 			<if test="tag=='title' and search!=''">
@@ -41,13 +45,23 @@
 			</if>
 		</where>
 	</select>
-	<insert id="insert" parameterType="board" >
-		insert into board values
+	<insert id="insert" parameterType="board">
+		insert into board
+		values
 		(board_seq.nextval,'92115kim',#{title},#{content},sysdate,#{category},0)
 	</insert>
 	<insert id="fileinsert" parameterType="Map">
- 		
- 	</insert>
+		insert all
+		<foreach collection="filelist" item="a" separator=" ">
+			into
+			board_file
+			values(board_seq.currval,#{a})
+		</foreach>
+
+		select * from dual
+
+	</insert>
+
 </mapper>
 
 
