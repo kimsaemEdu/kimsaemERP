@@ -8,6 +8,7 @@
 <link href="/kimsaemERP/common/css/font-awesome.css" rel="stylesheet" />
 <!-- Custom styles for this template -->
 
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
@@ -30,8 +31,8 @@
 
 						<label class="col-sm-2 col-sm-2 control-label">작성자</label>
 						<div class="col-sm-10">
-							<input type="hidden" name="id" value="lee">
-							<p class="form-control-static">김서연</p>
+							<input type="hidden" name="id" value="${loginUser.id }">
+							<p class="form-control-static">${loginUser.name }</p>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">게시글 유형</label>
