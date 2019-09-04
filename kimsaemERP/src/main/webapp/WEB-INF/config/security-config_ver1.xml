@@ -6,6 +6,31 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-
+	<!-- 
+	==============================================================
+	 spring security를 적용하고 인증절차를 spring security가 response하는 
+	     로그인페이지를 통해 작업(인증된  user의 정보도 설정파일에 명시)
+	===============================================================     
+	-->
+	<!-- 테스트작업 적절하지 않음  -->
+	<!-- 해결할 내용
+		 1. 사용자정의 로그인 페이지를 사용
+		 2. user의 정보를 설정파일에 명시하지 않고 db로 부터 받아와서 사용
+		 3. 적절한 권한처리
+	 -->
+	 <!-- role별로 접근할 수 있는 리소스를 정의하는 작업 -->
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/**" access="ROLE_USER"/>
+	</security:http>
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="user" password="user"
+					authorities="ROLE_USER" />
+				<security:user name="admin" password="admin"
+					authorities="ROLE_ADMIN" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
 </beans>

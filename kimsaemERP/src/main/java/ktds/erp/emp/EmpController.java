@@ -1,5 +1,6 @@
 package ktds.erp.emp;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,9 +67,10 @@ public class EmpController {
 	}
 	@RequestMapping(value="/emp/login.do",method=RequestMethod.POST)
 	public ModelAndView login(MemberDTO loginUser,
-				String member_id_save,HttpServletRequest req) 
+				String member_id_save,HttpServletRequest req,Principal login) 
 											throws Exception {
 		System.out.println("login==>"+loginUser);
+		System.out.println("login==>"+login);
 		ModelAndView mav = new ModelAndView();
 		LoginDTO user = service.login(loginUser);
 		String viewName = "";
