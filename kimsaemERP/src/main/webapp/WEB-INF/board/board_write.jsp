@@ -30,7 +30,11 @@
 
 						<label class="col-sm-2 col-sm-2 control-label">작성자</label>
 						<div class="col-sm-10">
+<<<<<<< HEAD
 							<input type="hidden" name="id" value="${loginUser.name}">
+=======
+							<input type="hidden" name="id" value="${loginUser.id}">
+>>>>>>> refs/heads/master
 							<p class="form-control-static">${loginUser.name}</p>
 						</div>
 						<div class="form-group">
