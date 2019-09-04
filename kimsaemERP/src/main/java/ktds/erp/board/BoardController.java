@@ -50,6 +50,8 @@ public class BoardController {
 			}
 			
 		}	
+
+		//서비스의 디비관련메소드 호출
 		service.insert(board, filelist);
 		return "redirect:/board/list.do?category=all";
 	}
