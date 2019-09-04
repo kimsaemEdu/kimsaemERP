@@ -24,7 +24,28 @@ public class BoardController {
 	//게시글 db에 insert
 	@RequestMapping(value="/board/insert.do" ,method=RequestMethod.POST)
 	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
-		return "";
+//		System.out.println(board);
+//		System.out.println(board.getFiles().length);
+		MultipartFile[] files = board.getFiles();
+		
+		//저장위치 - 서버가 인식하는 위치
+		String path = 
+				WebUtils.getRealPath(req.getSession().getServletContext(),
+					"/WEB-INF/upload");
+		ArrayList<String> filelist = new ArrayList<String>();
+		for (int i = 0; i < files.length; i++) {
+			String fileName = files[i].getOriginalFilename();
+//			System.out.println(fileName);
+			if(fileName.length()!=0) {
+				//파일명을 ArrayList에 추가
+				filelist.add(fileName);
+				//업로드 - 서비스단에서 작업
+				uploadservice.upload(files[i], path, fileName);
+			}
+		}
+		//서비스의 디비관련메소드 호출
+		service.insert(board, filelist);
+		return "redirect:/board/list.do?category=all";
 	}
 	
 	

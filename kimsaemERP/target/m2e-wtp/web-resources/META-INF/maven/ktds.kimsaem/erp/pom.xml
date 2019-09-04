@@ -172,6 +172,7 @@
 			<version>2.4.6</version>
 		</dependency>
 		<!-- aop를 위한 라이브러리 -->
+<<<<<<< HEAD
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -179,6 +180,13 @@
 			<version>4.2.4.RELEASE</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
+=======
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>4.2.4.RELEASE</version>
+		</dependency>
+>>>>>>> refs/remotes/kimsaem/master
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
