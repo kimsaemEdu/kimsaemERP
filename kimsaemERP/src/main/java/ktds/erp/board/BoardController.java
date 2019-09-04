@@ -42,7 +42,7 @@ public class BoardController {
 	 */
 
 	// 게시글 db에 insert
-	@RequestMapping(value = "/board/insert.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/board/user/insert.do", method = RequestMethod.POST)
 	public String write(BoardDTO board, HttpServletRequest req) throws Exception {
 		// System.out.println(board);
 		// System.out.println(board.getFiles().length);
@@ -78,7 +78,7 @@ public class BoardController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/board/read.do")
+	@RequestMapping(value = "/board/user/read.do")
 	public ModelAndView read(String board_no, String state) {
 		System.out.println("readcontroller=>" + board_no + "," + state);
 		BoardDTO board = service.read(board_no);
