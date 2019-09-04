@@ -28,22 +28,31 @@ public class BoardServiceImpl implements BoardService {
 		return boardlist;
 	}
 
-	@Override
+	/*
+	 * @Override public int insert(BoardDTO board, ArrayList<String> filelist) { int
+	 * result = 0; int result1 = dao.insert(board); int result2 = 0; if
+	 * (filelist.size() != 0) { result2 = dao.fileInsert(filelist); if (result1 > 0
+	 * && result2 > 0) { result = 1; } else { if (result1 >= 1) { result = 1; } }
+	 * 
+	 * }
+	 */
 	public int insert(BoardDTO board, ArrayList<String> filelist) {
 		int result = 0;
-		int result1 = dao.insert(board);
-		int result2 = 0;
+		int boardResult = dao.insert(board);
+		int boardFileResult = 0;
 		if (filelist.size() != 0) {
-			result2 = dao.fileInsert(filelist);
-			if (result1 > 0 && result2 > 0) {
+			String testStr = null;
+			testStr.length();
+			boardFileResult = dao.fileInsert(filelist);
+			if (boardResult >= 1 & boardFileResult >= 1) {
 				result = 1;
-			} else {
-				if (result1 >= 1) {
-					result = 1;
-				}
 			}
-
+		} else {
+			if (boardResult >= 1) {
+				result = 1;
+			}
 		}
+
 		return result;
 	}
 

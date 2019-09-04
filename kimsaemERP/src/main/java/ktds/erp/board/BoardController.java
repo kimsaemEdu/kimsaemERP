@@ -23,32 +23,47 @@ public class BoardController {
 	FileUploadLogic uploadservice;
 
 	// 게시글 db에 insert
+	/*
+	 * @RequestMapping(value = "/board/insert.do", method = RequestMethod.POST)
+	 * public String write(BoardDTO board, HttpServletRequest req) throws Exception
+	 * { // 일반적인내용과 파일 업로드 // 1. dto에서 업로드되는 파일의 모든 정보를 추출 // -> 파일이 여러 개 일수 있으므로
+	 * ArrayList에 담기 // -> FileUploadLogic이 업로도되는 파일 갯수만큼 호출 // -> BoardService의
+	 * insert를 호출 HttpSession session = req.getSession(false); ArrayList<String>
+	 * filelist = new ArrayList<String>();
+	 * 
+	 * for (int i = 0; i < board.files.length; i++) { MultipartFile file =
+	 * board.getFiles()[i]; if (file.getOriginalFilename() == "") { break; } String
+	 * path = WebUtils.getRealPath(session.getServletContext(), "/WEB-INF/upload");
+	 * System.out.println(path); String fileName = file.getOriginalFilename();
+	 * filelist.add(fileName); uploadservice.upload(file, path, fileName); } int
+	 * result = service.insert(board, filelist); System.out.println(result);
+	 * 
+	 * return "index";
+	 */
+
+	// 게시글 db에 insert
 	@RequestMapping(value = "/board/insert.do", method = RequestMethod.POST)
 	public String write(BoardDTO board, HttpServletRequest req) throws Exception {
-		// 일반적인내용과 파일 업로드
-		// 1. dto에서 업로드되는 파일의 모든 정보를 추출
-		// -> 파일이 여러 개 일수 있으므로 ArrayList에 담기
-		// -> FileUploadLogic이 업로도되는 파일 갯수만큼 호출
-		// -> BoardService의 insert를 호출
-		HttpSession session = req.getSession(false);
+		// System.out.println(board);
+		// System.out.println(board.getFiles().length);
+		MultipartFile[] files = board.getFiles();
+
+		// 저장위치 - 서버가 인식하는 위치
+		String path = WebUtils.getRealPath(req.getSession().getServletContext(), "/WEB-INF/upload");
 		ArrayList<String> filelist = new ArrayList<String>();
-
-		for (int i = 0; i < board.files.length; i++) {
-			MultipartFile file = board.getFiles()[i];
-			if (file.getOriginalFilename() == "") {
-				break;
+		for (int i = 0; i < files.length; i++) {
+			String fileName = files[i].getOriginalFilename();
+			// System.out.println(fileName);
+			if (fileName.length() != 0) {
+				// 파일명을 ArrayList에 추가
+				filelist.add(fileName);
+				// 업로드 - 서비스단에서 작업
+				uploadservice.upload(files[i], path, fileName);
 			}
-			String path = WebUtils.getRealPath(session.getServletContext(), "/WEB-INF/upload");
-			System.out.println(path);
-			String fileName = file.getOriginalFilename();
-			filelist.add(fileName);
-			uploadservice.upload(file, path, fileName);
 		}
-		int result = service.insert(board, filelist);
-		System.out.println(result);
-
-		return "index";
-
+		// 서비스의 디비관련메소드 호출
+		service.insert(board, filelist);
+		return "redirect:/board/list.do?category=all";
 	}
 
 	@RequestMapping(value = "/board/list.do")
