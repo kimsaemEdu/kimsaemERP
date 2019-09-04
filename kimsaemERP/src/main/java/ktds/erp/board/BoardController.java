@@ -25,7 +25,7 @@ public class BoardController {
 	FileUploadLogic uploadservice;
 
 	//게시글 db에 insert
-	@RequestMapping(value="/board/insert.do" ,method=RequestMethod.POST)
+	@RequestMapping(value="/board/user/insert.do" ,method=RequestMethod.POST)
 	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
 		//board dto에는 사용자가 게시글로 등록하는 일반적인 내용과 업로드하는 파일의 정보
 		//1. dto에서 업로드되는 파일의 모든 정보를 추출 
@@ -83,7 +83,7 @@ public class BoardController {
 		return mav;
 	}
 
-	@RequestMapping(value="/board/read.do")
+	@RequestMapping(value="/board/user/read.do")
 	public ModelAndView read(String board_no,String state) {
 		System.out.println("readcontroller=>"+board_no+","+state);
 		BoardDTO board= service.read(board_no);
