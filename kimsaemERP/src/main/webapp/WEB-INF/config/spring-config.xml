@@ -91,34 +91,21 @@
 			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="4000000"/>	
 	</beans:bean>
-<<<<<<< HEAD
-	<!-- ===========인터셉터를 등록=================================
-	<interceptors>
-		<interceptor>
-=======
 	<!-- ===========인터셉터를 등록================================= -->
 	<!--<interceptors>
 		 <interceptor>
->>>>>>> refs/remotes/kimsaem/master
 			<mapping path="/**"/>
 			<beans:bean class="advanced.TimeCheckInterceptor"/>
-<<<<<<< HEAD
-		</interceptor>
-=======
-		</interceptor> 
->>>>>>> refs/remotes/kimsaem/master
-		<interceptor>			
+		 </interceptor>
+		 <interceptor>			
 			<mapping path="/emp/**"/>
 			<mapping path="/board/**"/>
 			<mapping path="/menu/job.do"/>
 			<exclude-mapping path="/emp/login.do"/>
 			<exclude-mapping path="/board/ajax_boardlist.do"/>
 			<beans:bean class="ktds.erp.emp.LoginCheckInterceptor"/>
-		</interceptor>
-<<<<<<< HEAD
+		 </interceptor>
 	</interceptors> -->
-=======
-	</interceptors>-->
 	<!-- ========== aop를 이용한 선언적 트랜잭션 처리================ -->
 	<!-- 1. 트랜잭션처리를 위해 제공하는 클래스를 등록 -->
 	<beans:bean id="transactionManager"
@@ -133,7 +120,6 @@
 			
 		</tx:attributes>
 	</tx:advice>
->>>>>>> refs/remotes/kimsaem/master
 	
 	<!-- 3. aop처리 -->
 	<aop:config>
