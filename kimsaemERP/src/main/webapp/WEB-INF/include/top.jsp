@@ -36,7 +36,7 @@
 			<ul class="nav navbar-nav navbar-right"
 				style="position: relative; top: 20px">
 				<li style="margin-right: 20px; height: 70px"><a
-					href="/kimsaemERP/emp/login.do"><span
+					href="/kimsaemERP/emp/login"><span
 						class="glyphicon glyphicon-log-in"> </span>Login</a></li>
 				<li><a href="/kimsaemERP/admin/index.do"> <span
 						class="glyphicon glyphicon-user"></span>관리자
