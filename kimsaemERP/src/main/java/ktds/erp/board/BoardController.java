@@ -24,6 +24,7 @@ public class BoardController {
 	//게시글 db에 insert
 	@RequestMapping(value="/board/insert.do" ,method=RequestMethod.POST)
 	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
+
 		
 		System.out.println(board);
 		System.out.println(board.getFiles().length);
@@ -43,7 +44,9 @@ public class BoardController {
 				service.insert(board, filelist);
 			}
 		}
-		//서비스의 DB관련 메소드 호출
+		
+		//서비스의 디비관련메소드 호출
+
 		service.insert(board, filelist);
 		return "redirect:/board/list.do?category=all";
 	}
