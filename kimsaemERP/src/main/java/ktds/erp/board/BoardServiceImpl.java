@@ -28,11 +28,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insert(BoardDTO board,ArrayList<String> filelist) {
-<<<<<<< HEAD
 		int boardinsert = dao.insert(board);
 		int fileinsert = dao.fileInsert(filelist);
-		return boardinsert;
-=======
 		int result = 0;
 		int boardResult = dao.insert(board);
 		int boardFileResult=0;
@@ -50,7 +47,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		return result;
->>>>>>> refs/heads/master
 	}
 
 
