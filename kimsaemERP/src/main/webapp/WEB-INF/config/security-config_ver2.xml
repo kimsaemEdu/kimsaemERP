@@ -16,9 +16,22 @@
 		 -->
 		 
 		<!-- 요청path별로 어떻게 접근 할 수 있는 권한을 정의 -->
+	<security:http pattern="/**/*.js" security="none"/>
+	<security:http pattern="/**/*.css" security="none"/>
+	<security:http pattern="/images/**" security="none"/>
 	<security:http auto-config="true" >
 		<security:intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/index.do" access ="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
+		<security:intercept-url pattern="/emp/login" access ="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
+		<security:intercept-url pattern="/emp/logout.do" access ="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
 		<security:intercept-url pattern="/**" access="ROLE_USER"/>
+		<security:form-login
+			username-parameter="id"
+			password-parameter="pass"
+			login-page="/emp/login"
+			default-target-url="/index.do"
+			authentication-failure-url="/emp/login?fail=true"
+		/>
 	</security:http>
 	
 	<!-- 인증을 어떻게 할 것인지 등록 -->

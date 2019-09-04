@@ -37,7 +37,7 @@ public class IndexController{
 		System.out.println("인사관리");
 		return "menu/insa";
 	}
-	@RequestMapping(value="/emp/login.do",method=RequestMethod.GET)
+	@RequestMapping(value="/emp/login",method=RequestMethod.GET)
 	public String showadvancedMenu(){
 		System.out.println("login화면");
 		return "login";
