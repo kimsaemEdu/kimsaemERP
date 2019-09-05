@@ -46,13 +46,8 @@
 	</insert>
 	<insert id="fileinsert" parameterType="Map">
  		insert all
-<<<<<<< HEAD
  		<foreach collection="filelist" item="file" separator="">
  			into board_file values(board_seq.currval, #{file}) 
-=======
- 		<foreach collection="filelist" item="file" separator=" ">
- 			into board_file values(board_seq.currval,#{file})
->>>>>>> refs/heads/master
  		</foreach>
  		select * from dual
  	</insert>

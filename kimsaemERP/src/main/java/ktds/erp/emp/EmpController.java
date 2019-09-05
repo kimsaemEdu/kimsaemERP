@@ -64,33 +64,33 @@ public class EmpController {
 		}
 		return result;
 	}
-	@RequestMapping(value="/emp/login.do",method=RequestMethod.POST)
-	public ModelAndView login(MemberDTO loginUser,
-				String member_id_save,HttpServletRequest req) 
-											throws Exception {
-		System.out.println("login==>"+loginUser);
-		ModelAndView mav = new ModelAndView();
-		LoginDTO user = service.login(loginUser);
-		String viewName = "";
-		if(user!=null) {
-			HttpSession ses = req.getSession();
-			ses.setAttribute("loginUser", user);
-			viewName = user.getMenupath();
-			
-		}else {
-			viewName = "login";
-		}
-		
-		mav.setViewName(viewName);
-		return mav;
-	}
-	@RequestMapping(value="/emp/logout.do")
-	public String logout(HttpSession ses) throws Exception{
-		if(ses!=null) {
-			ses.invalidate();
-		}
-		return "redirect:/index.do";
-	}
+//	@RequestMapping(value="/emp/login.do",method=RequestMethod.POST)
+//	public ModelAndView login(MemberDTO loginUser,
+//				String member_id_save,HttpServletRequest req) 
+//											throws Exception {
+//		System.out.println("login==>"+loginUser);
+//		ModelAndView mav = new ModelAndView();
+//		LoginDTO user = service.login(loginUser);
+//		String viewName = "";
+//		if(user!=null) {
+//			HttpSession ses = req.getSession();
+//			ses.setAttribute("loginUser", user);
+//			viewName = user.getMenupath();
+//			
+//		}else {
+//			viewName = "login";
+//		}
+//		
+//		mav.setViewName(viewName);
+//		return mav;
+//	}
+//	@RequestMapping(value="/emp/logout.do")
+//	public String logout(HttpSession ses) throws Exception{
+//		if(ses!=null) {
+//			ses.invalidate();
+//		}
+//		return "redirect:/index.do";
+//	}
 }
 
 

@@ -9,6 +9,7 @@
 	<configs>
 		<config>src/main/webapp/WEB-INF/config/security-config_ver1.xml</config>
 		<config>src/main/webapp/WEB-INF/config/security-config_ver2.xml</config>
+		<config>src/main/webapp/WEB-INF/config/security-config_ver3.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/config/view-config.xml</config>
