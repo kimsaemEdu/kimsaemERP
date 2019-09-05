@@ -7,6 +7,13 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!--
+		1. 사용자정의 로그인 페이지로 접속하도록 설정
+			(spring security 내부의 인증처리로 작업)
+		2. 정적리소스는 spring security인증을 적용하지 않도록 작업
+	  -->
+
+
 	<security:http pattern="/**/*.js" security="none" />
 	<security:http pattern="/**/*.css" security="none" />
 	<security:http pattern="/images/**" security="none" />
