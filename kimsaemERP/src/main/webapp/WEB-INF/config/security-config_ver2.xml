@@ -6,6 +6,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 
+		1.사용자정의 로그인 페이지로 접속하도록 설정(spring security 내부의 인증처리로 작업)
+		2. 정적리소스는 spring security인증을 적옹하지 않도록 작업
+	 -->
+	
 	<security:http auto-config="true">
 		<security:intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
 		<security:intercept-url pattern="/**" access="ROLE_USER"/>
@@ -13,8 +19,8 @@
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service>
-				<security:user name="user" password="user2" authorities="ROLE_USER"/>
-				<security:user name="admin" password="admin2" authorities="ROLE_ADMIN"/>
+				<security:user name="user" password="user" authorities="ROLE_USER"/>
+				<security:user name="admin" password="admin" authorities="ROLE_ADMIN"/>
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
