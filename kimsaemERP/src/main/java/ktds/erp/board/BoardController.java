@@ -22,14 +22,13 @@ public class BoardController {
 	FileUploadLogic uploadservice;
 
 	//게시글 db에 insert
-	@RequestMapping(value="/board/insert.do" ,method=RequestMethod.POST)
+	@RequestMapping(value="/board/user/insert.do" ,method=RequestMethod.POST)
 	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
 		//board dto에는 사용자가 게시글로 등록하는 일반적인내용과
 		//업로드하는 파일의 정보
 		//1. dto에서 업로드되는 파일의 모든 정보를 추출
 		//  => 파일 여러 개일 수 있으므로 ArrayList에 담기
-		//  => FileUploadLogic이 업로드되는 파일갯수호출
-		//  		
+		//  => FileUploadLogic이 업로드되는 파일갯수호출		//  		
 		//System.out.println(board);
 		//System.out.println(board.getFiles().length);
 		MultipartFile[] files = board.getFiles();
@@ -45,18 +44,13 @@ public class BoardController {
 				filelist.add(fileName);
 				//업로드 - 서비스단에서작업
 				uploadservice.upload(files[i], path, fileName);
-				//서비스의 DB관련 메소드 호출
-				
-			}
-			
+				//서비스의 DB관련 메소드 호출				
+			}			
 		}	
-
 		//서비스의 디비관련메소드 호출
 		service.insert(board, filelist);
 		return "redirect:/board/list.do?category=all";
-	}
-	
-	
+	}	
 	
 	@RequestMapping(value="/board/list.do")
 	public ModelAndView showlist(String category) {
@@ -70,7 +64,7 @@ public class BoardController {
 		return mav;
 	}
 
-	@RequestMapping(value="/board/read.do")
+	@RequestMapping(value="/board/user/read.do")
 	public ModelAndView read(String board_no,String state) {
 		System.out.println("readcontroller=>"+board_no+","+state);
 		BoardDTO board= service.read(board_no);

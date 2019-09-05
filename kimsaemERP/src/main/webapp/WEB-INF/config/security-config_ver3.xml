@@ -15,6 +15,9 @@
 		<security:intercept-url pattern="/index.do" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
 		<security:intercept-url pattern="/emp/login" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
 		<security:intercept-url pattern="/emp/logout.do" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
+		<security:intercept-url pattern="/board/user/**" access="ROLE_USER,ROLE_ADMIN"/>
+		<security:intercept-url pattern="/board/**" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>		
+		<security:intercept-url pattern="/emp/**" access="ROLE_ADMIN"/>		
 		<security:intercept-url pattern="/**" access="ROLE_USER"/>
 		<security:form-login
 			username-parameter="id"
