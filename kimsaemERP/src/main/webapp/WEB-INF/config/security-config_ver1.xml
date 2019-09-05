@@ -19,7 +19,7 @@
 		<security:intercept-url pattern="/index.do"
 			access="permitAll" />
 		<security:intercept-url
-			pattern="/emp/logout.do" access="hoasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+			pattern="/emp/logout.do" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**"
 			access="hasRole('ROLE_USER')" />
 	</security:http>
