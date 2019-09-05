@@ -80,8 +80,12 @@
 			<option value="write_date">작성일</option>
 		</select> <input type="text" name="search" /> <input type="submit" value="검색">
 		<ul class="nav navbar-nav navbar-right">
+<<<<<<< HEAD
 			<li><a href="/kimsaemERP/board/user/insertView.do"
 				style="text-align: right;">글쓰기</a></li>
+=======
+			<li><a href="/kimsaemERP/board/user/insertView.do" style="text-align: right;">글쓰기</a></li>
+>>>>>>> refs/remotes/kimsaem/master
 		</ul>
 	</form>
 
