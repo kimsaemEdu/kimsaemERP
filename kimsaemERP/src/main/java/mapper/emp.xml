@@ -4,19 +4,33 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ktds.erp.emp">
 	<select id="login" resultType="login" parameterType="emp">
-		select m.*,d.deptname,j.job_category,j.menupath 
-		from member m, dept d, job j 
-		where m.deptno = d.deptno and d.job_category = j.job_id 
-				and id=#{id} and pass=#{pass}
+		select
+		m.*,d.deptname,j.job_category,j.menupath
+		from member m, dept d, job j
+		where m.deptno = d.deptno and d.job_category = j.job_id
+		and id=#{id}
+		and pass=#{pass}
 	</select>
-	<select id="idcheck" resultType="emp" parameterType="String" >
-		select * from member where id=#{id}
+	<select id="idcheck" resultType="emp" parameterType="String">
+		select *
+		from member where id=#{id}
 	</select>
 	<insert id="insert" parameterType="emp">
-		insert into member	values(#{id},#{pass},#{name},#{ssn},#{birthday},#{marry},
+		insert into member
+		values(#{id},#{pass},#{name},#{ssn},#{birthday},#{marry},
 		#{gender},null,null,null,sysdate,null,#{deptno},null,#{zipcode},#{addr},#{detailaddr},
 		#{phonehome},#{phoneco},#{phonecell},#{email},#{profile_photo})
 	</insert>
+	<select id="findgroup" resultType="authority"
+		parameterType="String">
+		select
+		m.id,authorityname from member m,dept d,job
+		g,authority
+		a,groupauthority ga where m.deptno=d.deptno and
+		d.job_category=g.job_id and
+		g.job_id=ga.groupid and
+		a.authorityid=ga.authorityid and m.id=#{id}
+	</select>
 </mapper>
 
 
