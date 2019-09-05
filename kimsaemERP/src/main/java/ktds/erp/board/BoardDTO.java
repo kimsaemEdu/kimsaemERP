@@ -29,13 +29,9 @@ public class BoardDTO {
 		this.category = category;
 		this.files = files;
 	}
-
-
-
 	public MultipartFile[] getFiles() {
 		return files;
 	}
-
 
 	public void setFiles(MultipartFile[] files) {
 		this.files = files;
