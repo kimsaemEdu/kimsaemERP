@@ -22,7 +22,6 @@ public class BoardController {
 	@Autowired
 	FileUploadLogic uploadservice;
 
-<<<<<<< HEAD
 	// 게시글 db에 insert
 	/*
 	 * @RequestMapping(value = "/board/insert.do", method = RequestMethod.POST)
@@ -47,13 +46,6 @@ public class BoardController {
 	public String write(BoardDTO board, HttpServletRequest req) throws Exception {
 		// System.out.println(board);
 		// System.out.println(board.getFiles().length);
-=======
-	//게시글 db에 insert
-	@RequestMapping(value="/board/user/insert.do" ,method=RequestMethod.POST)
-	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
-//		System.out.println(board);
-//		System.out.println(board.getFiles().length);
->>>>>>> refs/remotes/kimsaem/master
 		MultipartFile[] files = board.getFiles();
 
 		// 저장위치 - 서버가 인식하는 위치
@@ -86,23 +78,15 @@ public class BoardController {
 		return mav;
 	}
 
-<<<<<<< HEAD
 	@RequestMapping(value = "/board/user/read.do")
+
 	public ModelAndView read(String board_no, String state) {
 		System.out.println("readcontroller=>" + board_no + "," + state);
 		BoardDTO board = service.read(board_no);
 		System.out.println("조회된 데이터 =>" + board);
 		String viewName = "";
 		if (state.equals("READ")) {
-=======
-	@RequestMapping(value="/board/user/read.do")
-	public ModelAndView read(String board_no,String state) {
-		System.out.println("readcontroller=>"+board_no+","+state);
-		BoardDTO board= service.read(board_no);
-		System.out.println("조회된 데이터 =>"+board);
-		String viewName="";
-		if(state.equals("READ")) {
->>>>>>> refs/remotes/kimsaem/master
+
 			viewName = "board/read";
 		} else {
 			viewName = "board/update";
