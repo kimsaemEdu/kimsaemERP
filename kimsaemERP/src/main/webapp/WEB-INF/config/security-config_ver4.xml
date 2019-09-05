@@ -17,14 +17,12 @@
 		<security:http pattern="/**/*.js" security="none"/>
 		<security:http pattern="/**/*.css" security="none"/>
 		<security:http pattern="/images/**" security="none"/>
-		<security:http pattern="/board/list.do" security="none"/>
-		<security:http pattern="/board/ajax_boardlist.do" security="none"/>
 		<security:http auto-config="true" use-expressions="true">
 			<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 			<security:intercept-url pattern="/index.do" access="permitAll"/>
 			<security:intercept-url pattern="/emp/login" access="permitAll"/>
-			<security:intercept-url pattern="/emp/logout.do" access="hasAnyRole('ROLE_USER,ROLE_ADMIN')"/>
-			<security:intercept-url pattern="/**/user/**" access="hasAnyRole('ROLE_USER,ROLE_ADMIN')"/>
+			<security:intercept-url pattern="/emp/logout.do" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+			<security:intercept-url pattern="/**/user/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
 			<security:intercept-url pattern="/emp/**" access="hasRole('ROLE_ADMIN')"/>
 			<security:intercept-url pattern="/board/**" access="permitAll"/>
 			<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
