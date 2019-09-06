@@ -6,7 +6,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- 1. 사용자정의 로그인 페이지로 접속 하도록 설정 2. 정적리소스는 spring security인증을 적용하지 않도록 작업 
-		3. 로그아웃을 스프링 시큐리티 내부에서 제공하는 걸로 작업 4. spring EL로 변경 -->
+		3. 로그아웃을 스프링 시큐리티 내부에서 제공하는 걸로 작업 4. spring EL로 변경 5.로그인 시 db에 저장한 사용자와 정보비교하기 
+		: db에서 조회한 데이터로 인증하기 -->
 
 	<security:http pattern="/**/*.js" security="none" />
 	<security:http pattern="/**/*.css" security="none" />
@@ -40,14 +41,12 @@
 	</security:http>
 
 	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="user" password="user"
-					authorities="ROLE_USER" />
-				<security:user name="admin" password="admin"
-					authorities="ROLE_ADMIN" />
-			</security:user-service>
+		<security:authentication-provider
+			user-service-ref="loginService">
 		</security:authentication-provider>
 	</security:authentication-manager>
+	<bean id="loginService"
+		class="ktds.erp.emp.authentication.LoginSecurityService" />
+	<import resource="spring-config.xml" />
 
 </beans>

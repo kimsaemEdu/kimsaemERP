@@ -79,12 +79,14 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/board/user/read.do")
+
 	public ModelAndView read(String board_no, String state) {
 		System.out.println("readcontroller=>" + board_no + "," + state);
 		BoardDTO board = service.read(board_no);
 		System.out.println("조회된 데이터 =>" + board);
 		String viewName = "";
 		if (state.equals("READ")) {
+
 			viewName = "board/read";
 		} else {
 			viewName = "board/update";

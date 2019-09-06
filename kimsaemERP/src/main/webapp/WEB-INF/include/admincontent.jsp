@@ -10,6 +10,7 @@
 	<h1>자바나라</h1>
 	${msg}
 	<hr />
+	<hr />
 	<img alt="" src="/kimsaemERP/images/jang.jpg">
 </body>
 </html>
