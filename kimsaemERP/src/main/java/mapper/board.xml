@@ -46,7 +46,8 @@
 	</insert>
 	<insert id="fileinsert" parameterType="Map">
  		insert all
- 		<foreach collection="filelist" item="file" separator="">
+ 		<!-- separator는 foreach의 결과를 구분해주는 것 -->
+ 		<foreach collection="filelist" item="file" separator=" ">
  			into board_file values(board_seq.currval, #{file}) 
  		</foreach>
  		select * from dual
