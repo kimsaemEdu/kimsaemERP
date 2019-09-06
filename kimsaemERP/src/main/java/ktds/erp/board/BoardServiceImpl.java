@@ -43,7 +43,8 @@ public class BoardServiceImpl implements BoardService {
 				result=1;
 			}
 		}
-		return 0;
+		
+		return result;
 	}
 
 
