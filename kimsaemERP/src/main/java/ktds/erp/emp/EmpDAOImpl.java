@@ -66,9 +66,10 @@ public class EmpDAOImpl implements EmpDAO {
 	}
 
 	@Override
-	public MemberDTO findbyId(String id) {
+	public LoginDTO findbyId(String id) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("ktds.erp.emp.idcheck",id);
+		System.out.println(id);
+		return sqlSession.selectOne("ktds.erp.emp.securityLogin",id);
 	}
 
 }

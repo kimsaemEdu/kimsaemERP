@@ -32,10 +32,12 @@ public class AdminDAOImpl implements AdminDAO {
 		int i=0;
 		//매개변수로 전달받은 userlist에 저장된 dto의 password를 update할 수 있도록 작성하세요
 		//userlist의 갯수만큰 sqlSession의 update메소드를 호출
-		for(i=0; i<userlist.size(); i++) {
-			sqlSession.update("ktds.erp.emp.passchange", userlist.get(i));
+		for(MemberDTO user : userlist) {   //userlist에서 user라는 이름으로 하나씩 뽑아준다 user= userlist.get(i)
+			sqlSession.update("ktds.erp.emp.passchange",user);
 		}
+//		for(i=0; i<userlist.size(); i++) {
+//			sqlSession.update("ktds.erp.emp.passchange", userlist.get(i));
+//		}
 		return i;
 	}
-
 }
