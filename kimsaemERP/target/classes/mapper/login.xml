@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ktds.login">
+	<select id="authority" resultType="memberAuthority" parameterType="String">
+		 select m.id, a.authorityname from member m, dept d, groupauthority g, authority a where m.deptno=d.deptno and d.job_category=g.groupid and g.authorityid=a.authorityid and m.id=#{id}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,6 +12,7 @@
 		2. 정적리소스는 spring security인증을 적옹하지 않도록 작업
 		3. 로그아웃을 spring security 내부에서 제공하는 기능으로 처리
 		4. spring EL로 변경
+		5. 로그인 시 DB에 저장된 사용자와 정보 비교하기 : DB에서 조회한 데이터로 인증하기 
 	 -->
 		
 		<security:http pattern="/**/*.js" security="none"/>
@@ -38,11 +39,9 @@
 			/>
 		</security:http>
 		<security:authentication-manager>
-			<security:authentication-provider>
-				<security:user-service>
-					<security:user name="user" password="user" authorities="ROLE_USER"/>
-					<security:user name="admin" password="admin" authorities="ROLE_ADMIN"/>
-				</security:user-service>
+			<security:authentication-provider user-service-ref="loginService">
 			</security:authentication-provider>
 		</security:authentication-manager>
+		<bean id ="loginService" class="ktds.erp.emp.authentication.LoginSecurityService"/>
+		<import resource="spring-config.xml"/>
 </beans>
