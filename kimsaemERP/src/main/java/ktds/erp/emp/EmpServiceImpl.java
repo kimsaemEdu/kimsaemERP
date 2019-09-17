@@ -14,11 +14,12 @@ public class EmpServiceImpl implements EmpService {
 	EmpDAO dao;
 	@Autowired
 	FileUploadLogic upload;
-	ShaPasswordEncoder shaPassWordEncoder = new ShaPasswordEncoder(256); //비번 복호화 못하도록
-
+	@Autowired
+	ShaPasswordEncoder shaPassWordEncoder;
+	
 	@Override
 	public int insert(MemberDTO user,MultipartFile file,String realpath,String filename) {
-		String securityPass=shaPassWordEncoder.encodePassword(user.getPass(), null); //패스워드 암호화
+		String securityPass=shaPassWordEncoder.encodePassword(user.getPass(), user.getId()); //패스워드 암호화
 		System.out.println(securityPass);
 		user.setPass(securityPass); //암호화된 패스워드 다시 유저의 패스워드에 저장
 		upload.upload(file, realpath, filename);

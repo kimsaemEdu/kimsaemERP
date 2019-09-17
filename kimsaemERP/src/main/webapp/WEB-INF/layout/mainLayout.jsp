@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +43,12 @@
 			 		 style="border-color:white;height: 800px;">
 				        <div style="background-color:#63cde7;padding: 20px;
 				        font-family:HY-견고딕;font-size: 16pt;color: white;
-				         font-weight: bolder;">${loginUser.job_category}</div>
+				         font-weight: bolder;">
+				         <se:authorize access="isAuthenticated()">
+				          	<se:authentication property="principal.job_category"/>
+				         </se:authorize>
+				         <!-- ${loginUser.job_category} -->
+				         </div>
 
 				       	<tiles:insertAttribute name="menu"></tiles:insertAttribute>
       				 </div>

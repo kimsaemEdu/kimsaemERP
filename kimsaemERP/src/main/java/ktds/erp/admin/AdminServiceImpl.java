@@ -12,7 +12,8 @@ import ktds.erp.emp.MemberDTO;
 public class AdminServiceImpl implements AdminService {
 	@Autowired
 	AdminDAO dao;
-	private ShaPasswordEncoder passencoder =new ShaPasswordEncoder(256);
+	@Autowired
+	private ShaPasswordEncoder passencoder;
 	
 	@Override
 	public List<MemberDTO> getMemberList() {
@@ -32,7 +33,7 @@ public class AdminServiceImpl implements AdminService {
 		//3. 받아온 아이디의 password를 읽어서 암호화시킨 값을 update할 수 있도록 dao이 update를 호출하세요
 		String securityPass="";
 		for(int i=0; i<userlist.size();i++) {
-			securityPass=passencoder.encodePassword(userlist.get(i).getPass(), null);
+			securityPass=passencoder.encodePassword(userlist.get(i).getPass(), userlist.get(i).getId());
 			userlist.get(i).setPass(securityPass);
 		}
 		int result = dao.update(userlist);

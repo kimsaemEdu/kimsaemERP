@@ -28,7 +28,8 @@
 			<security:intercept-url pattern="/**" access="hasRole('user')"/>
 			
 			<security:form-login username-parameter="id" password-parameter="pass" login-page="/emp/login" 
-						default-target-url="/index.do" authentication-failure-url="/emp/login?fail=true"/>
+						default-target-url="/index.do" authentication-failure-url="/emp/login?fail=true"
+						authentication-success-handler-ref="loginSuccess"/>
 						
 			<security:logout
 				logout-url="/emp/logout.do"
@@ -37,10 +38,15 @@
 				invalidate-session="true"
 			/>
 		</security:http>
+		<bean id="loginSuccess" class="ktds.erp.emp.authentication.LoginSuccessHandler"/>
+		<!-- 인증을 어떻게 할 것인지 등록 -->
 		<security:authentication-manager>
 			<security:authentication-provider ref="customProvider">
 			</security:authentication-provider>
 		</security:authentication-manager>
+		<bean id = "passEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+			<constructor-arg name="strength" value="256"/>
+		</bean>
 		<bean id ="customProvider" class="ktds.erp.emp.authentication.CustomAuthenticationProvider"/>
 		<import resource="spring-config.xml"/>
 </beans>

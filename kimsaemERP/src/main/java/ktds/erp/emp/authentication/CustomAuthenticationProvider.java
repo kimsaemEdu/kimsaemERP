@@ -11,11 +11,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class CustomAuthenticationProvider implements AuthenticationProvider{
 	@Autowired
 	UserDetailsService securityService;
-	ShaPasswordEncoder shaPassowrdEncoder = new ShaPasswordEncoder(256);
+	@Autowired
+	ShaPasswordEncoder shaPassowrdEncoder;
 	
 	//로그인버튼을 눌렀을 때 호출되는 메소드
 	@Override
 	public Authentication authenticate(Authentication data) throws AuthenticationException {
+		//provider는 사용자가 입력한 정보를 가져와 DB와 비교한다
+		//authenticate 인증 작업을 하는 
 		//data는 로그인에서 입력된 정보로 가져온 데이터
 		System.out.println("CustomAuthenticationProvider : "+data);
 		//사용자 정보 출력하기
@@ -32,7 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		//DB에서 조회한 데이터와 입력한 데이터를 비교
 		//isPasswordValid는 암호화된 데이터와 입력데이터를 비교
 		
-		boolean state = shaPassowrdEncoder.isPasswordValid(loginUser.getPass(), pass,null);
+		boolean state = shaPassowrdEncoder.isPasswordValid(loginUser.getPass(), pass, loginUser.getId());
 		System.out.println("패스워드 비교 : "+state);
 		//인증결과를 리턴 - UsernamePasswordAuthenticationToken으로 리턴
 		UsernamePasswordAuthenticationToken token = null;
