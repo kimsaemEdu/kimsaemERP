@@ -1,11 +1,13 @@
 package ktds.kimsaem.erp;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,13 +16,16 @@ import org.springframework.web.servlet.ModelAndView;
 import ktds.erp.board.BoardDTO;
 import ktds.erp.board.BoardService;
 import ktds.erp.emp.LoginDTO;
+import ktds.erp.emp.authentication.SecurityLoginDTO;
 
 @Controller
 public class IndexController{
 	@Autowired
 	BoardService service;
 	@RequestMapping("/index.do")
-	public ModelAndView main(){
+	public ModelAndView main(Principal principal){
+		//Principal 인증된 객체를 저장
+		System.out.println("인증된 사용자 : "+principal);
 		ModelAndView mav = new ModelAndView();
 		List<BoardDTO> boardlist=  service.boardList("게시판");
 		mav.addObject("boardlist", boardlist);
@@ -43,18 +48,10 @@ public class IndexController{
 		return "login";
 	}
 	@RequestMapping(value="/menu/job.do",method=RequestMethod.GET)
-	public String showjobMenu(HttpServletRequest req) throws Exception{
-		String viewName = "";
-		HttpSession ses = req.getSession(false);
-		if(ses!=null) {
-			System.out.println("기존 사용하던 세션");	
-			LoginDTO user = (LoginDTO)ses.getAttribute("loginUser");
-			if(user!=null) {
-				System.out.println("로그인하고 작업중");	
-				viewName = user.getMenupath();
-			}
-		}
-		
+	public String showjobMenu(Principal principal) throws Exception{
+		//UsernamePasswordAuthenticationToken dto = principal.
+		SecurityLoginDTO loginUser =(SecurityLoginDTO)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+		String viewName = loginUser.getMenupath();
 		return viewName;
 	}
 	@RequestMapping("/admin/index.do")

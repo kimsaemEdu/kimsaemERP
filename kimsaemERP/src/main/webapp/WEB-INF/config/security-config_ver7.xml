@@ -8,11 +8,10 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
 		<!-- 
-		1.사용자정의 로그인 페이지로 접속하도록 설정(spring security 내부의 인증처리로 작업)
-		2. 정적리소스는 spring security인증을 적옹하지 않도록 작업
-		3. 로그아웃을 spring security 내부에서 제공하는 기능으로 처리
-		4. spring EL로 변경
-		5. 로그인 시 DB에 저장된 사용자와 정보 비교하기 : DB에서 조회한 데이터로 인증하기 
+		1. 암호화되어 DB에 저장된 pass와 비교하여 인증하는 작업처리
+			authentication-manager와 authentication-provider를 커스텀마이징
+			==>CustomAuthenticationProvider클래스에서 커스텀마이징
+		
 	 -->
 		
 		<security:http pattern="/**/*.js" security="none"/>
@@ -29,7 +28,8 @@
 			<security:intercept-url pattern="/**" access="hasRole('user')"/>
 			
 			<security:form-login username-parameter="id" password-parameter="pass" login-page="/emp/login" 
-						default-target-url="/index.do" authentication-failure-url="/emp/login?fail=true"/>
+						default-target-url="/index.do" authentication-failure-url="/emp/login?fail=true"
+						authentication-success-handler-ref="loginSuccess"/>
 						
 			<security:logout
 				logout-url="/emp/logout.do"
@@ -38,13 +38,15 @@
 				invalidate-session="true"
 			/>
 		</security:http>
+		<bean id="loginSuccess" class="ktds.erp.emp.authentication.LoginSuccessHandler"/>
+		<!-- 인증을 어떻게 할 것인지 등록 -->
 		<security:authentication-manager>
-			<security:authentication-provider user-service-ref="loginService">
+			<security:authentication-provider ref="customProvider">
 			</security:authentication-provider>
 		</security:authentication-manager>
 		<bean id = "passEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
 			<constructor-arg name="strength" value="256"/>
 		</bean>
-		<bean id ="loginService" class="ktds.erp.emp.authentication.LoginSecurityService"/>
+		<bean id ="customProvider" class="ktds.erp.emp.authentication.CustomAuthenticationProvider"/>
 		<import resource="spring-config.xml"/>
 </beans>
