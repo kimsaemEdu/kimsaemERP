@@ -8,7 +8,7 @@ public class MemberDTO {
 	private String pass;
 	private String name;
 	private String ssn;
-	private Date birthday;
+	private String birthday;
 	private String marry;
 	private String gender;
 	private String position;
@@ -27,12 +27,13 @@ public class MemberDTO {
 	private String email;
 	private String profile_photo;
 	private String deptname;
+	private String authority;
 	MultipartFile userImage;
 	public MemberDTO() {
 
 	}
 	
-	public MemberDTO(String id, String pass, String name, String ssn, Date birthday, String marry, String gender,
+	public MemberDTO(String id, String pass, String name, String ssn, String birthday, String marry, String gender,
 			String position, String duty, String classes, Date startday, Date endday, String deptno, String curstate,
 			String zipcode, String addr, String detailaddr, String phonehome, String phoneco, String phonecell,
 			String email, String profile_photo, String deptname, MultipartFile userImage) {
@@ -65,7 +66,7 @@ public class MemberDTO {
 
 	//사원등록용 - 파일업로드 후에는 profile_photo추가
 	public MemberDTO(String id, String pass, String name,
-			String ssn, Date birthday, String marry, 
+			String ssn, String birthday, String marry, 
 			String deptno,String zipcode, String addr, 
 			String detailaddr, String phonehome, String phoneco,
 			String phonecell,String email,String profile_photo) {
@@ -88,7 +89,7 @@ public class MemberDTO {
 	}
 
 	// 회원목록조회용 생성자
-	public MemberDTO(String id, String pass, String name, String ssn, Date birthday, String marry, String gender,
+	public MemberDTO(String id, String pass, String name, String ssn, String birthday, String marry, String gender,
 			String position, String duty, String classes, Date startday, Date endday, String deptno, String curstate,
 			String zipcode, String addr, String detailaddr, String phonehome, String phoneco, String phonecell,
 			String email, String profile_photo,String deptname) {
@@ -118,7 +119,13 @@ public class MemberDTO {
 		this.deptname = deptname;
 	}
 
-	
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 
 	public MultipartFile getUserImage() {
 		return userImage;
@@ -166,11 +173,11 @@ public class MemberDTO {
 		this.ssn = ssn;
 	}
 
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 

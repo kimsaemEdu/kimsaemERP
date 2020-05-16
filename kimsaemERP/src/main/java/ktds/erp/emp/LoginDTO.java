@@ -4,12 +4,11 @@ import java.sql.Date;
 
 public class LoginDTO extends MemberDTO{
 	private String job_category;
-	//private String deptname;
 	private String menupath;
 	public LoginDTO(){
 		
 	}
-	public LoginDTO(String id, String pass, String name, String ssn, Date birthday, String marry, String gender,
+	public LoginDTO(String id, String pass, String name, String ssn, String birthday, String marry, String gender,
 			String position, String duty, String classes, Date startday, Date endday, String deptno, String curstate,
 			String zipcode, String addr, String detailaddr, String phonehome, String phoneco, String phonecell,
 			String email, String profile_photo,
@@ -48,5 +47,4 @@ public class LoginDTO extends MemberDTO{
 				+ ", toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ "]";
 	}
-	
 }
